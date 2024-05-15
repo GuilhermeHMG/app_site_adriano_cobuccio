@@ -1,0 +1,37 @@
+version: "3.3"
+
+services:
+  php-7-4-apache:
+    build:
+      args:
+        user: guilherme
+        uid: 1000
+      context: ./
+      dockerfile: Dockerfile
+    image: php:7.4-apache
+    container_name: php-container-codeigniter
+    restart: unless-stopped
+    volumes:
+      - ./:/var/www/html
+      - ./docker-compose/apache/apache2.conf:/etc/apache2/apache2.conf
+    ports:
+      - "8004:80"
+    networks:
+      - app-network-codeigniter
+
+  mysql:
+    image: mysql:5.7.22
+    container_name: mysql-container-codeigniter
+    restart: unless-stopped
+    ports:
+      - "3310:3306"
+    volumes:
+      - ./docker-compose/mysql:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 12345 # ${DB_PASSWORD}
+      SERVICE_NAME: mysql
+    networks:
+      - app-network-codeigniter
+networks:
+  app-network-codeigniter:
+    driver: bridge
