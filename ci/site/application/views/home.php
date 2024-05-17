@@ -54,7 +54,7 @@
     </section>
 </div>
 <div>
-    <?php $this->load->view('noticias'); ?>
+    <?php $this->load->view('politica'); ?>
 </div>
 
 <?php $this->load->view('footer'); ?>
